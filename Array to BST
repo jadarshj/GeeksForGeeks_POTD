@@ -1,0 +1,80 @@
+Given a sorted array. Convert it into a Height Balanced Binary Search Tree (BST). Return the root of the BST.
+
+Height-balanced BST means a binary tree in which the depth of the left subtree and the right subtree of every node never differ by more than 1.
+
+Note: The driver code will check the BST, if it is a Height-balanced BST, the output will be true otherwise the output will be false.
+
+Examples :
+
+Input: nums = [1, 2, 3, 4]
+Output: true
+Explanation: The preorder traversal of the following BST formed is [2, 1, 3, 4]:
+           2
+         /   \
+        1     3
+               \
+                4
+Input: nums = [1, 2, 3, 4, 5, 6, 7]
+Ouput: true
+Explanation: The preorder traversal of the following BST formed is [4, 2, 1, 3, 6, 5, 7]:
+        4
+       / \
+      2   6
+     / \   / \
+    1 3  5 7
+Expected Time Complexity: O(n)
+Expected Auxillary Space: O(n)
+
+Constraints:
+1 ≤ nums.size() ≤ 105
+1 ≤ nums[i] ≤ 105
+
+Solution
+
+Let's dive into a common problem: converting a sorted array into a balanced Binary Search Tree (BST). Here's a step-by-step explanation along with some visual aids to help you understand the approach better.
+
+Problem Statement:
+Given an integer array nums where the elements are sorted in ascending order, convert it into a height-balanced Binary Search Tree (BST).
+
+Intuition:
+A height-balanced BST ensures that the depth of the two subtrees of every node never differs by more than one. To achieve this, we can always pick the middle element of the current subarray to be the root. This ensures that the number of nodes in the left subtree and the right subtree are as balanced as possible.
+
+Approach:
+Recursive Division: Start with the full array. The middle element becomes the root. The left half of the array forms the left subtree, and the right half forms the right subtree.
+Base Case: If the current subarray has no elements, return NULL.
+Recursion: Recursively apply the same logic to the left and right subarrays.
+Visualization:
+Here's a quick visual example:
+
+Given the sorted array: [1, 2, 3, 4, 5, 6, 7]
+
+Pick the middle element 4 as the root.
+Recursively do the same for the left subarray [1, 2, 3] and the right subarray [5, 6, 7].
+The left subarray [1, 2, 3] picks 2 as the root, with 1 as the left child and 3 as the right child.
+The right subarray [5, 6, 7] picks 6 as the root, with 5 as the left child and 7 as the right child.
+Here's how the BST would look:
+
+ 
+
+        4
+       / \
+      2   6
+     / \ / \
+    1  3 5  7
+
+
+
+Code : 
+    Node* setNode(int l, int h, vector<int>& nums) {
+        if (l >= h) return NULL; 
+    
+        int mid = (l + h) / 2;
+        Node* root = new Node(nums[mid]);
+        root->left = setNode(l, mid, nums); 
+        root->right = setNode(mid + 1, h, nums); 
+        return root;
+    }
+    
+    Node* sortedArrayToBST(vector<int>& nums) {
+        return setNode(0, nums.size(), nums);
+    }
